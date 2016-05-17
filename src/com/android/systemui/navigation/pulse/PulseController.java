@@ -216,7 +216,7 @@ public class PulseController {
         void updateEnabled() {
             ContentResolver resolver = mContext.getContentResolver();
             mPulseEnabled = Settings.Secure.getIntForUser(resolver,
-                    Settings.Secure.FLING_PULSE_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
+                    Settings.Secure.FLING_PULSE_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
         }
 
         void update() {
