@@ -262,8 +262,15 @@ public class PulseController {
         mMediaMonitor.setListening(true);
     }
 
-    public void setPulseObserver(PulseObserver observer) {
+   public void setPulseObserver(PulseObserver observer) {
         mPulseObserver = observer;
+        initVisualizer();
+    }
+    
+   public void initVisualizer() {
+        if (mPulseObserver == null) {
+            return;
+        }
         mValidator = new PulseFftValidator();
         mValidator.addCallbacks(mStreamValidatorCallbacks);
         mLavaLamp = new PulseColorAnimator();
@@ -272,7 +279,8 @@ public class PulseController {
         mVisualizer = new PulseVisualizer(mPulseObserver);
         mVisualizer.addRenderer(mRenderer);
         mSettingsObserver.update();
-    }
+        
+        }
 
     public void removePulseObserver() {
         doUnlinkVisualizer();
@@ -400,8 +408,12 @@ public class PulseController {
     }
 
     private void doLinkVisualizer() {
+        doLinkVisualizer(false);
+    }
+
+    private void doLinkVisualizer(boolean force) {
         if (mVisualizer != null) {
-            if (!mLinked) {
+            if (!mLinked || force) {
                 setVisualizerLocked(true);
                 mValidator.reset(); // reset validation flags
                 mVisualizer.resetDrawing(); // clear stale bitmaps
@@ -418,11 +430,14 @@ public class PulseController {
         }
     }
     
-   public void resetvisualizer() {
-	setPulseObserver(mPulseObserver);
-	setVisualizerLocked(true);
-	mVisualizer.setDrawingEnabled(true);
-        mVisualizer.link(0);
-        mLinked = true;
-   }
+    public void resetvisualizer() {
+        final boolean wasLinked = mLinked;
+        if (wasLinked) {
+            doSilentUnlinkVisualizer();
+        }
+        initVisualizer();
+        if (wasLinked) {
+            doLinkVisualizer(true);
+        }
+    }
 }
