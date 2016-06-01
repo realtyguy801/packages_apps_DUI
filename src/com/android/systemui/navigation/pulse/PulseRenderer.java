@@ -32,6 +32,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.UserHandle;
+import android.os.PowerManager;
 
 import com.android.systemui.navigation.pulse.Renderer;
 import com.android.systemui.navigation.pulse.StreamValidator;
@@ -58,11 +59,13 @@ public class PulseRenderer implements Renderer {
     private int mFudgeFactor;
     private int mFuzz;
     private Paint mPaint;
+    private PowerManager mPm;
     private StreamValidator mValidator;
 
     public PulseRenderer(Context ctx, StreamValidator validator) {
         super();
         mValidator = validator;
+        mPm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
         mDefColor = ctx.getResources().getColor(R.color.config_pulseFillColor);
         mUserColor = mDefColor;
         mPaint = new Paint();
@@ -94,6 +97,7 @@ public class PulseRenderer implements Renderer {
                 mFFTPoints[i * 4 + 1] = rect.height();
                 mFFTPoints[i * 4 + 3] = rect.height() - (dbValue * mDbFuzzFactor + mDbFuzz);
             }
+            mPm.cpuBoost(150000);
             canvas.drawLines(mFFTPoints, mPaint);
         }
     }

@@ -131,7 +131,7 @@ public class FlingView extends BaseNavigationBar {
                 mUserAutoHideListener.onTouch(FlingView.this, event);
             }
             if (action == MotionEvent.ACTION_DOWN) {
-//                mPm.cpuBoost(1000 * 1000);
+                mPm.cpuBoost(1000 * 1000);
                 mLogoController.onTouchHide(null);
             } else if (action == MotionEvent.ACTION_UP
                     || action == MotionEvent.ACTION_CANCEL) {
@@ -156,7 +156,7 @@ public class FlingView extends BaseNavigationBar {
         setOnTouchListener(mFlingTouchListener);
 
         // CM bases: turn this on for an extra bump ;D
-        //mPm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        mPm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
         mRipple = new FlingRipple(this);
         mTrails = new FlingTrails(this);

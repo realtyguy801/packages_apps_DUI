@@ -28,6 +28,8 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
 
+import android.os.PowerManager;
+
 import com.android.systemui.navigation.pulse.BaseVisualizer;
 import com.android.systemui.navigation.pulse.PulseController.PulseObserver;
 
@@ -37,7 +39,7 @@ public class PulseVisualizer extends BaseVisualizer {
     private Matrix mRotMatrix;
     private boolean mVertical;
     private boolean mLeftInLandscape;
-    private boolean mResetDrawing = true;    
+    private boolean mResetDrawing = true;
 
     public PulseVisualizer(PulseObserver callback) {
         super();

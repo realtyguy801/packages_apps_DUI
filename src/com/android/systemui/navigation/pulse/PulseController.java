@@ -84,6 +84,7 @@ public class PulseController {
     private boolean mPulseEnabled;
     private boolean mScreenOn;
     private boolean mMusicStreamMuted;
+    private PowerManager pm;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -250,7 +251,7 @@ public class PulseController {
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         context.registerReceiver(mReceiver, filter);
 
-        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mPowerSaveModeEnabled = pm.isPowerSaveMode();
 
         mMediaMonitor = new MediaMonitor(mContext) {
@@ -427,6 +428,7 @@ public class PulseController {
     public void onDraw(Canvas canvas) {
         if (mLinked) {
             mVisualizer.onDraw(canvas);
+            pm.cpuBoost(150000);
         }
     }
     
