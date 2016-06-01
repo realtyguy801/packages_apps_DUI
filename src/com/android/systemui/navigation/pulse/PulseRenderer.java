@@ -97,7 +97,7 @@ public class PulseRenderer implements Renderer {
                 mFFTPoints[i * 4 + 1] = rect.height();
                 mFFTPoints[i * 4 + 3] = rect.height() - (dbValue * mDbFuzzFactor + mDbFuzz);
             }
-            mPm.cpuBoost(150000);
+            mPm.cpuBoost(2000 * 2000);
             canvas.drawLines(mFFTPoints, mPaint);
         }
     }

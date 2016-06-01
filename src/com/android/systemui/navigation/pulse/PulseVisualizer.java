@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
+import android.content.Context;
 
 import android.os.PowerManager;
 
@@ -40,11 +41,13 @@ public class PulseVisualizer extends BaseVisualizer {
     private boolean mVertical;
     private boolean mLeftInLandscape;
     private boolean mResetDrawing = true;
+    private PowerManager pm;
 
-    public PulseVisualizer(PulseObserver callback) {
+    public PulseVisualizer(PulseObserver callback , Context context) {
         super();
         mRotMatrix = new Matrix();
         mCallback = callback;
+        pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
     }
 
     public void setPulseObserver(PulseObserver observer) {
@@ -127,6 +130,7 @@ public class PulseVisualizer extends BaseVisualizer {
                         mCanvasBitmap.getWidth(), mCanvasBitmap.getHeight(),
                         mRotMatrix, true);
             }
+            pm.cpuBoost(2000 * 2000);
             canvas.drawBitmap(isVertical ? mRotatedBitmap : mCanvasBitmap, mMatrix, null);
         }
     }

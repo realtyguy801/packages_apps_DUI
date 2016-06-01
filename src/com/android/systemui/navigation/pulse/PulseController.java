@@ -277,7 +277,7 @@ public class PulseController {
         mLavaLamp = new PulseColorAnimator();
         mRenderer = new PulseRenderer(mContext, mValidator);
         mLavaLamp.setColorAnimatorListener(mRenderer);
-        mVisualizer = new PulseVisualizer(mPulseObserver);
+        mVisualizer = new PulseVisualizer(mPulseObserver, mContext);
         mVisualizer.addRenderer(mRenderer);
         mSettingsObserver.update();
         
@@ -428,7 +428,7 @@ public class PulseController {
     public void onDraw(Canvas canvas) {
         if (mLinked) {
             mVisualizer.onDraw(canvas);
-            pm.cpuBoost(150000);
+            pm.cpuBoost(2000 * 2000);
         }
     }
     
