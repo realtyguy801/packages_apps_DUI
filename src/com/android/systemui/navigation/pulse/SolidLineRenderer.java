@@ -227,6 +227,12 @@ public class SolidLineRenderer extends Renderer implements ColorAnimator.ColorAn
                     Settings.Secure.getUriFor(Settings.Secure.FLING_PULSE_LAVALAMP_ENABLED), false,
                     this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(
+                    Settings.Secure.getUriFor(Settings.Secure.PULSE_SOLID_FUDGE_FACTOR), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(
+                    Settings.Secure.getUriFor(Settings.Secure.LAVAMP_SOLID_SPEED), false, this,
+                    UserHandle.USER_ALL);
         }
 
         @Override
@@ -245,15 +251,35 @@ public class SolidLineRenderer extends Renderer implements ColorAnimator.ColorAn
             if (!mLavaLampEnabled) {
                 mPaint.setColor(mColor);
             }
-            int time = Settings.Secure.getIntForUser(resolver,
-                    Settings.Secure.FLING_PULSE_LAVALAMP_SPEED, ColorAnimator.ANIM_DEF_DURATION,
+            int mLavaLampSpeed = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.LAVAMP_SOLID_SPEED, 10 * 1000,
                     UserHandle.USER_CURRENT);
-            mLavaLamp.setAnimationTime(time);
+	    mLavaLamp.setAnimationTime(mLavaLampSpeed);
             if (mLavaLampEnabled && mIsValidStream) {
                 mLavaLamp.start();
             } else {
                 mLavaLamp.stop();
             }
-        }
-    }
+      	 int mFudgeFactor = Settings.Secure.getIntForUser(
+                    resolver, Settings.Secure.PULSE_SOLID_FUDGE_FACTOR, 0,
+                    UserHandle.USER_CURRENT);
+		if (mFudgeFactor == 0) {
+	        mDbFuzzFactor = 5f;
+		} else if (mFudgeFactor == 1) {
+	        mDbFuzzFactor = 1f;
+		} else if (mFudgeFactor == 2) {
+	        mDbFuzzFactor = 2f;
+		} else if (mFudgeFactor == 3) {
+	        mDbFuzzFactor = 3f;
+		} else if (mFudgeFactor == 4) {
+	        mDbFuzzFactor = 4f;
+		} else if (mFudgeFactor == 5) {
+	        mDbFuzzFactor = 6f;
+		} else if (mFudgeFactor == 6) {
+	        mDbFuzzFactor = 8f;
+		}  else if (mFudgeFactor == 7) {
+	        mDbFuzzFactor = 9f;
+		}
+   	 }
+     }
 }

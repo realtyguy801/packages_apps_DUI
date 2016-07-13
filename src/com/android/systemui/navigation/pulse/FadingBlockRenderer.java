@@ -243,7 +243,7 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
                 mPaint.setColor(applyPaintAlphaToColor(mUserColor));
             }
             int time = Settings.Secure.getIntForUser(resolver,
-                    Settings.Secure.FLING_PULSE_LAVALAMP_SPEED, ColorAnimator.ANIM_DEF_DURATION,
+                    Settings.Secure.FLING_PULSE_LAVALAMP_SPEED, 10000,
                     UserHandle.USER_CURRENT);
             mLavaLamp.setAnimationTime(time);
             if (mLavaLampEnabled && mIsValidStream) {
