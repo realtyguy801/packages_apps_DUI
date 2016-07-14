@@ -252,31 +252,31 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
                 mLavaLamp.stop();
             }
             mFilledBlock = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_FILLED_BLOCK_SIZE, 0,
+                    resolver, Settings.Secure.PULSE_FILLED_BLOCK_SIZE, 2,
                     UserHandle.USER_CURRENT);
             mEmptyBlock = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_EMPTY_BLOCK_SIZE, 0,
+                    resolver, Settings.Secure.PULSE_EMPTY_BLOCK_SIZE, 1,
                     UserHandle.USER_CURRENT);
             mCustomDimen = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_CUSTOM_DIMEN, 0,
+                    resolver, Settings.Secure.PULSE_CUSTOM_DIMEN, 7,
                     UserHandle.USER_CURRENT);
             mNumDivision = Settings.Secure.getIntForUser(
                     resolver, Settings.Secure.PULSE_CUSTOM_DIV, 0,
                     UserHandle.USER_CURRENT);
             mFudgeFactor = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_CUSTOM_FUDGE_FACTOR, 0,
+                    resolver, Settings.Secure.PULSE_CUSTOM_FUDGE_FACTOR, 2,
                     UserHandle.USER_CURRENT);
             if (mFilledBlock == 0) {
                 mPathEffect1 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect_1);
+                        R.dimen.config_pulsePathEffect1_1);
             }
             else if (mFilledBlock == 1) {
                 mPathEffect1 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect1_1);
+                        R.dimen.config_pulsePathEffect2_1);
             }
             else if (mFilledBlock == 2) {
                 mPathEffect1 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect2_1);
+                        R.dimen.config_pulsePathEffect_1);
             }
             else if (mFilledBlock == 3) {
                 mPathEffect1 = mContext.getResources().getDimensionPixelSize(
@@ -288,23 +288,23 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
             }
             if (mEmptyBlock == 0) {
                 mPathEffect2 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect_2);
+                        R.dimen.config_pulsePathEffect4_2);
             }
             else if (mEmptyBlock == 1) {
                 mPathEffect2 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect1_2);
+                        R.dimen.config_pulsePathEffect_2);
             }
             else if (mEmptyBlock == 2) {
                 mPathEffect2 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect2_2);
+                        R.dimen.config_pulsePathEffect1_2);
             }
             else if (mEmptyBlock == 3) {
                 mPathEffect2 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect3_2);
+                        R.dimen.config_pulsePathEffect2_2);
             }
             else if (mEmptyBlock == 4) {
                 mPathEffect2 = mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathEffect4_2);
+                        R.dimen.config_pulsePathEffect3_2);
             }
             mPaint.setPathEffect(null);
             mPaint.setPathEffect(new android.graphics.DashPathEffect(new float[] {
@@ -313,39 +313,39 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
             }, 0));
             if (mCustomDimen == 0) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth));
+                        R.dimen.config_pulsePathStrokeWidth1));
             }
             else if (mCustomDimen == 1) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth1));
+                        R.dimen.config_pulsePathStrokeWidth2));
             }
             else if (mCustomDimen == 2) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth2));
+                        R.dimen.config_pulsePathStrokeWidth3));
             }
             else if (mCustomDimen == 3) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth3));
+                        R.dimen.config_pulsePathStrokeWidth4));
             }
             else if (mCustomDimen == 4) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth4));
+                        R.dimen.config_pulsePathStrokeWidth5));
             }
             else if (mCustomDimen == 5) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth5));
+                        R.dimen.config_pulsePathStrokeWidth6));
             }
             else if (mCustomDimen == 6) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth6));
+                        R.dimen.config_pulsePathStrokeWidth7));
             }
             else if (mCustomDimen == 7) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth7));
+                        R.dimen.config_pulsePathStrokeWidth));
             }
             else if (mCustomDimen == 8) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth8));
+                        R.dimen.config_pulsePathStrokeWidth6));
             }
             else if (mCustomDimen == 9) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
@@ -420,15 +420,15 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
             }
             if (mFudgeFactor == 0) {
                 mDbFuzzFactor = mContext.getResources().getInteger(
-                        R.integer.config_pulseDbFuzzFactor);
+                        R.integer.config_pulseDbFuzzFactor1);
             }
             else if (mFudgeFactor == 1) {
                 mDbFuzzFactor = mContext.getResources().getInteger(
-                        R.integer.config_pulseDbFuzzFactor1);
+                        R.integer.config_pulseDbFuzzFactor2);
             }
             else if (mFudgeFactor == 2) {
                 mDbFuzzFactor = mContext.getResources().getInteger(
-                        R.integer.config_pulseDbFuzzFactor2);
+                        R.integer.config_pulseDbFuzzFactor);
             }
             else if (mFudgeFactor == 3) {
                 mDbFuzzFactor = mContext.getResources().getInteger(

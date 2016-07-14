@@ -261,24 +261,24 @@ public class SolidLineRenderer extends Renderer implements ColorAnimator.ColorAn
                 mLavaLamp.stop();
             }
       	 int mFudgeFactor = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_SOLID_FUDGE_FACTOR, 0,
+                    resolver, Settings.Secure.PULSE_SOLID_FUDGE_FACTOR, 4,
                     UserHandle.USER_CURRENT);
 		if (mFudgeFactor == 0) {
-	        mDbFuzzFactor = 5f;
-		} else if (mFudgeFactor == 1) {
 	        mDbFuzzFactor = 1f;
-		} else if (mFudgeFactor == 2) {
+		} else if (mFudgeFactor == 1) {
 	        mDbFuzzFactor = 2f;
-		} else if (mFudgeFactor == 3) {
+		} else if (mFudgeFactor == 2) {
 	        mDbFuzzFactor = 3f;
-		} else if (mFudgeFactor == 4) {
+		} else if (mFudgeFactor == 3) {
 	        mDbFuzzFactor = 4f;
+		} else if (mFudgeFactor == 4) {
+	        mDbFuzzFactor = 5f;
 		} else if (mFudgeFactor == 5) {
 	        mDbFuzzFactor = 6f;
 		} else if (mFudgeFactor == 6) {
-	        mDbFuzzFactor = 8f;
+	        mDbFuzzFactor = 7f;
 		}  else if (mFudgeFactor == 7) {
-	        mDbFuzzFactor = 9f;
+	        mDbFuzzFactor = 8f;
 		}
    	 }
      }
