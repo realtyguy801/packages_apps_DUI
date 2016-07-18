@@ -258,10 +258,10 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
                     resolver, Settings.Secure.PULSE_EMPTY_BLOCK_SIZE, 1,
                     UserHandle.USER_CURRENT);
             mCustomDimen = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_CUSTOM_DIMEN, 7,
+                    resolver, Settings.Secure.PULSE_CUSTOM_DIMEN, 14,
                     UserHandle.USER_CURRENT);
             mNumDivision = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_CUSTOM_DIV, 0,
+                    resolver, Settings.Secure.PULSE_CUSTOM_DIV, 2,
                     UserHandle.USER_CURRENT);
             mFudgeFactor = Settings.Secure.getIntForUser(
                     resolver, Settings.Secure.PULSE_CUSTOM_FUDGE_FACTOR, 2,
@@ -369,27 +369,71 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
             }
             else if (mCustomDimen == 14) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth14));
+                        R.dimen.config_pulsePathStrokeWidth));
             }
             else if (mCustomDimen == 15) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth15));
+                        R.dimen.config_pulsePathStrokeWidth14));
             }
             else if (mCustomDimen == 16) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth16));
+                        R.dimen.config_pulsePathStrokeWidth15));
             }
             else if (mCustomDimen == 17) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth17));
+                        R.dimen.config_pulsePathStrokeWidth16));
             }
             else if (mCustomDimen == 18) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
-                        R.dimen.config_pulsePathStrokeWidth18));
+                        R.dimen.config_pulsePathStrokeWidth17));
             }
             else if (mCustomDimen == 19) {
                 mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth18));
+            }
+	    else if (mCustomDimen == 20) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
                         R.dimen.config_pulsePathStrokeWidth19));
+            }
+            else if (mCustomDimen == 21) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth20));
+            }
+            else if (mCustomDimen == 22) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth21));
+            }
+            else if (mCustomDimen == 23) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth22));
+            }
+            else if (mCustomDimen == 24) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth23));
+            }
+            else if (mCustomDimen == 25) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth24));
+            }
+            else if (mCustomDimen == 26) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth25));
+            }
+            else if (mCustomDimen == 27) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth26));
+            }
+            else if (mCustomDimen == 28) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth27));
+            }
+            else if (mCustomDimen == 29) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth28));
+            }
+	    else if (mCustomDimen == 30) {
+                mPaint.setStrokeWidth(mContext.getResources().getDimensionPixelSize(
+                        R.dimen.config_pulsePathStrokeWidth29));
             }
             if (mNumDivision == 0) {
                 mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions);
@@ -398,25 +442,52 @@ public class FadingBlockRenderer extends Renderer implements ColorAnimator.Color
                 mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions1);
             }
             else if (mNumDivision == 2) {
-                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions2);
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions);
             }
             else if (mNumDivision == 3) {
-                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions3);
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions2);
             }
             else if (mNumDivision == 4) {
-                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions4);
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions3);
             }
             else if (mNumDivision == 5) {
-                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions5);
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions4);
             }
             else if (mNumDivision == 6) {
-                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions6);
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions5);
             }
             else if (mNumDivision == 7) {
-                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions7);
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions6);
             }
             else if (mNumDivision == 8) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions7);
+            } 
+            else if (mNumDivision == 9) {
                 mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions8);
+            }
+            else if (mNumDivision == 10) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions9);
+            }
+            else if (mNumDivision == 11) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions10);
+            }
+            else if (mNumDivision == 12) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions11);
+            }
+            else if (mNumDivision == 13) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions12);
+            }
+            else if (mNumDivision == 14) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions13);
+            }
+            else if (mNumDivision == 15) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions14);
+            }
+            else if (mNumDivision == 16) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions15);
+            }
+            else if (mNumDivision == 17) {
+                mDivisions = mContext.getResources().getInteger(R.integer.config_pulseDivisions16);
             }
             if (mFudgeFactor == 0) {
                 mDbFuzzFactor = mContext.getResources().getInteger(
