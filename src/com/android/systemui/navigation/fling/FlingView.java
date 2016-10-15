@@ -38,7 +38,7 @@ import com.android.systemui.navigation.fling.FlingRipple;
 import com.android.systemui.navigation.fling.FlingTrails;
 import com.android.systemui.navigation.fling.FlingView;
 import com.android.systemui.navigation.utils.SmartObserver.SmartObservable;
-import com.android.systemui.statusbar.BarTransitions;
+import com.android.systemui.statusbar.phone.BarTransitions;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.internal.utils.du.ActionConstants;
 
@@ -97,7 +97,7 @@ public class FlingView extends BaseNavigationBar {
     };
 
     private static final class FlingGestureDetectorPriv extends FlingGestureDetector {
-        static final int LP_TIMEOUT = ViewConfiguration.getLongPressTimeout();
+        static final int LP_TIMEOUT = 250;
         // no more than default timeout
         static final int LP_TIMEOUT_MAX = LP_TIMEOUT;
         // no less than 25ms longer than single tap timeout
@@ -132,7 +132,7 @@ public class FlingView extends BaseNavigationBar {
                 mUserAutoHideListener.onTouch(FlingView.this, event);
             }
             if (action == MotionEvent.ACTION_DOWN) {
-                mPm.cpuBoost(1000 * 1000);
+//                mPm.cpuBoost(1000 * 1000);
                 mLogoController.onTouchHide(null);
             } else if (action == MotionEvent.ACTION_UP
                     || action == MotionEvent.ACTION_CANCEL) {
@@ -152,12 +152,12 @@ public class FlingView extends BaseNavigationBar {
         super(context, attrs);
         mBarTransitions = new FlingBarTransitions(this);
         mActionHandler = new FlingActionHandler(context, this);
-        mGestureHandler = new FlingGestureHandler(context, mActionHandler, this);
+        mGestureHandler = new FlingGestureHandler(context, mActionHandler, this, BaseNavigationBar.sIsTablet);
         mGestureDetector = new FlingGestureDetectorPriv(context, mGestureHandler);
         setOnTouchListener(mFlingTouchListener);
 
         // CM bases: turn this on for an extra bump ;D
-        mPm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        //mPm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
         mRipple = new FlingRipple(this);
         mTrails = new FlingTrails(this);
@@ -265,24 +265,6 @@ public class FlingView extends BaseNavigationBar {
 //        mRipple.updateResources(res);
         super.updateNavbarThemedResources(res);
         mLogoController.setLogoIcon();
-        for (int i = 0; i < mRotatedViews.length; i++) {
-            ViewGroup container = (ViewGroup) mRotatedViews[i];
-            ViewGroup lightsOut = (ViewGroup) container.findViewById(R.id.lights_out);
-            if (lightsOut != null) {
-                final int nChildren = lightsOut.getChildCount();
-                for (int j = 0; j < nChildren; j++) {
-                    final View child = lightsOut.getChildAt(j);
-                    if (child instanceof ImageView) {
-                        final ImageView iv = (ImageView) child;
-                        // clear out the existing drawable, this is required since the
-                        // ImageView keeps track of the resource ID and if it is the same
-                        // it will not update the drawable.
-                        iv.setImageDrawable(null);
-                        iv.setImageDrawable(mResourceMap.mLightsOutLarge);                   
-                    }
-                }
-            }
-        }
     }
 
     private void updateFlingSettings() {

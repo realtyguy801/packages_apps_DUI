@@ -231,7 +231,7 @@ public class SolidLineRenderer extends Renderer implements ColorAnimator.ColorAn
                     Settings.Secure.getUriFor(Settings.Secure.PULSE_SOLID_FUDGE_FACTOR), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(
-                    Settings.Secure.getUriFor(Settings.Secure.LAVAMP_SOLID_SPEED), false, this,
+                    Settings.Secure.getUriFor(Settings.Secure.PULSE_LAVALAMP_SOLID_SPEED), false, this,
                     UserHandle.USER_ALL);
         }
 
@@ -251,35 +251,19 @@ public class SolidLineRenderer extends Renderer implements ColorAnimator.ColorAn
             if (!mLavaLampEnabled) {
                 mPaint.setColor(mColor);
             }
-            int mLavaLampSpeed = Settings.Secure.getIntForUser(resolver,
-                    Settings.Secure.LAVAMP_SOLID_SPEED, 10 * 1000,
+            int lavaLampSpeed = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.PULSE_LAVALAMP_SOLID_SPEED, 10 * 1000,
                     UserHandle.USER_CURRENT);
-	    mLavaLamp.setAnimationTime(mLavaLampSpeed);
+            mLavaLamp.setAnimationTime(lavaLampSpeed);
             if (mLavaLampEnabled && mIsValidStream) {
                 mLavaLamp.start();
             } else {
                 mLavaLamp.stop();
             }
-      	 int mFudgeFactor = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.PULSE_SOLID_FUDGE_FACTOR, 4,
+            // putFloat, getFloat is better. catch it next time
+            mDbFuzzFactor = Settings.Secure.getIntForUser(
+                    resolver, Settings.Secure.PULSE_SOLID_FUDGE_FACTOR, 5,
                     UserHandle.USER_CURRENT);
-		if (mFudgeFactor == 0) {
-	        mDbFuzzFactor = 1f;
-		} else if (mFudgeFactor == 1) {
-	        mDbFuzzFactor = 2f;
-		} else if (mFudgeFactor == 2) {
-	        mDbFuzzFactor = 3f;
-		} else if (mFudgeFactor == 3) {
-	        mDbFuzzFactor = 4f;
-		} else if (mFudgeFactor == 4) {
-	        mDbFuzzFactor = 5f;
-		} else if (mFudgeFactor == 5) {
-	        mDbFuzzFactor = 6f;
-		} else if (mFudgeFactor == 6) {
-	        mDbFuzzFactor = 7f;
-		}  else if (mFudgeFactor == 7) {
-	        mDbFuzzFactor = 8f;
-		}
-   	 }
-     }
+        }
+    }
 }
