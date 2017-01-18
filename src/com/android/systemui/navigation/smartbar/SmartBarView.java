@@ -573,7 +573,7 @@ public class SmartBarView extends BaseNavigationBar {
 
     private void updateOneHandedModeSetting() {
         isOneHandedModeEnabled = Settings.Secure.getIntForUser(getContext().getContentResolver(),
-                Settings.Secure.ONE_HANDED_MODE_UI, 1, UserHandle.USER_CURRENT) == 1;
+                Settings.Secure.ONE_HANDED_MODE_UI, 0, UserHandle.USER_CURRENT) == 1;
     }
 
     void recreateButtonLayout(ArrayList<ButtonConfig> buttonConfigs, boolean landscape,
