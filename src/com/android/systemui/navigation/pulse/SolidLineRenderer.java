@@ -85,7 +85,7 @@ public class SolidLineRenderer extends Renderer implements ColorAnimator.ColorAn
 
     private void loadValueAnimators() {
         if (mValueAnimators != null) {
-            for (int i = 0; i < mUnits; i++) {
+            for (int i = 0; i < mValueAnimators.length; i++) {
                 mValueAnimators[i].cancel();
             }
         }
