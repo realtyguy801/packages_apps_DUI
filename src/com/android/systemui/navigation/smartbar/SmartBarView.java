@@ -213,14 +213,9 @@ public class SmartBarView extends BaseNavigationBar {
         mMediaMonitor = new MediaMonitor(context) {
             @Override
             public void onPlayStateChanged(boolean playing) {
-                if (mImeHintMode == 3) {
-                    setNavigationIconHints(mNavigationIconHints, true);
-                    final boolean backAlt = (mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) != 0;
-                    if (isAnythingPlaying() && !backAlt) {
-                        SmartButtonView.arrowsMediaAction = true;
-                    } else {
-                        SmartButtonView.arrowsMediaAction = false;
-                    }
+                if (mImeHintMode == 3 && mEditor != null && mEditor.getMode() == BaseEditor.MODE_OFF) {
+                    //handle media/ime arrows visibility and smartbutton action type
+                    setArrowsMode();
                 }
             }
         };
@@ -422,8 +417,7 @@ public class SmartBarView extends BaseNavigationBar {
         final boolean showImeButton = ((hints & StatusBarManager.NAVIGATION_HINT_IME_SHOWN) != 0);
         switch(mImeHintMode) {
             case IME_HINT_MODE_HIDDEN: // always hidden
-                getImeSwitchButton().setVisibility(View.INVISIBLE);
-                setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
+                setArrowsMode();
                 break;
             case IME_HINT_MODE_PICKER:
                 getHiddenContext().findViewWithTag(Res.Softkey.IME_SWITCHER).setVisibility(INVISIBLE);
@@ -446,6 +440,15 @@ public class SmartBarView extends BaseNavigationBar {
         // Update menu button in case the IME state has changed.
         setMenuVisibility(mShowMenu, true);
         setDisabledFlags(mDisabledFlags, true);
+    }
+
+    private void setArrowsMode() {
+        final boolean backAlt = (mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) != 0;
+        getImeSwitchButton().setVisibility(View.INVISIBLE);
+        updateCurrentIcons();
+        setImeArrowsVisibility(mCurrentView, (backAlt || (mMediaMonitor.isAnythingPlaying()
+                && mAudioManager.isMusicActive())) ? View.VISIBLE : View.INVISIBLE);
+        SmartButtonView.arrowsMediaAction = !backAlt;
     }
 
     @Override
