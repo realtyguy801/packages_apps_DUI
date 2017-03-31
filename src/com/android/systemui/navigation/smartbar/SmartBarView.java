@@ -29,11 +29,15 @@ package com.android.systemui.navigation.smartbar;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.StatusBarManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -172,6 +176,7 @@ public class SmartBarView extends BaseNavigationBar {
     private View mContextRight, mContextLeft, mCurrentContext;
     private boolean mHasLeftContext;
     private boolean isNavDoubleTapEnabled;
+    private boolean mMusicStreamMuted;
     private boolean isOneHandedModeEnabled;
     private int mImeHintMode;
     private int mButtonAnimationStyle;
@@ -185,6 +190,35 @@ public class SmartBarView extends BaseNavigationBar {
     private SlideTouchEvent mSlideTouchEvent;
 
     private MediaMonitor mMediaMonitor;
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.STREAM_MUTE_CHANGED_ACTION.equals(intent.getAction())
+                    || (AudioManager.VOLUME_CHANGED_ACTION.equals(intent.getAction()))) {
+                int streamType = intent.getIntExtra(AudioManager.EXTRA_VOLUME_STREAM_TYPE, -1);
+                if (streamType == AudioManager.STREAM_MUSIC) {
+                    boolean muted = isMusicMuted(streamType);
+                    if (mMusicStreamMuted != muted) {
+                        mMusicStreamMuted = muted;
+                        Handler mHandler = new Handler();
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                setNavigationIconHints(mNavigationIconHints, true);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    };
+
+    private boolean isMusicMuted(int streamType) {
+        return streamType == AudioManager.STREAM_MUSIC &&
+                (mAudioManager.isStreamMute(streamType) ||
+                mAudioManager.getStreamVolume(streamType) == 0);
+    }
 
     public SmartBarView(Context context, boolean asDefault) {
         super(context);
@@ -208,6 +242,15 @@ public class SmartBarView extends BaseNavigationBar {
             }
         });
 
+<<<<<<< HEAD
+=======
+        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        mMusicStreamMuted = isMusicMuted(AudioManager.STREAM_MUSIC);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AudioManager.STREAM_MUTE_CHANGED_ACTION);
+        context.registerReceiver(mReceiver, filter);
+
+>>>>>>> 11115e9... Smartbar media arrows: fix it hiding sometimes
         mMediaMonitor = new MediaMonitor(context) {
             @Override
             public void onPlayStateChanged(boolean playing) {
@@ -317,7 +360,7 @@ public class SmartBarView extends BaseNavigationBar {
 >>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
             if (!config.hasCustomIcon()
                     && config.isSystemAction()) {
-                d = mResourceMap.getActionDrawable(config.getActionConfig(ActionConfig.PRIMARY).getAction());
+                    d = mResourceMap.getActionDrawable(config.getActionConfig(ActionConfig.PRIMARY).getAction());
             } else {
                 // custom icon or intent icon, get from library
                 d = config.getCurrentIcon(getContext());
@@ -424,6 +467,7 @@ public class SmartBarView extends BaseNavigationBar {
 
         final boolean showImeButton = ((hints & StatusBarManager.NAVIGATION_HINT_IME_SHOWN) != 0);
         switch(mImeHintMode) {
+<<<<<<< HEAD
             case IME_HINT_MODE_HIDDEN: // always hidden
 <<<<<<< HEAD
                 setArrowsMode();
@@ -437,6 +481,11 @@ public class SmartBarView extends BaseNavigationBar {
                 getHiddenContext().findViewWithTag(Res.Softkey.IME_SWITCHER).setVisibility(INVISIBLE);
                 getImeSwitchButton().setVisibility(showImeButton ? View.VISIBLE : View.INVISIBLE);
                 setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
+=======
+            case IME_HINT_MODE_ARROWS: // arrows
+                getImeSwitchButton().setVisibility(View.INVISIBLE);
+                setImeArrowsVisibility(mCurrentView, backAlt ? View.VISIBLE : View.INVISIBLE);
+>>>>>>> 11115e9... Smartbar media arrows: fix it hiding sometimes
                 setMediaArrowsVisibility(mCurrentView, View.INVISIBLE);
                 break;
             case IME_AND_MEDIA_HINT_MODE_ARROWS:
@@ -451,13 +500,23 @@ public class SmartBarView extends BaseNavigationBar {
                         && mAudioManager.isMusicActive())) ? View.VISIBLE : View.INVISIBLE);
 >>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
                 break;
-            default: //IME_HINT_MODE_ARROWS
+            case IME_HINT_MODE_PICKER:
+                getHiddenContext().findViewWithTag(Res.Softkey.IME_SWITCHER).setVisibility(INVISIBLE);
+                getImeSwitchButton().setVisibility(showImeButton ? View.VISIBLE : View.INVISIBLE);
+                setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
+                setMediaArrowsVisibility(mCurrentView, View.INVISIBLE);
+                break;
+            default: // hidden
                 getImeSwitchButton().setVisibility(View.INVISIBLE);
+<<<<<<< HEAD
                 updateCurrentIcons();
                 setImeArrowsVisibility(mCurrentView, backAlt ? View.VISIBLE : View.INVISIBLE);
 <<<<<<< HEAD
                 SmartButtonView.arrowsMediaAction = false;
 =======
+=======
+                setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
+>>>>>>> 11115e9... Smartbar media arrows: fix it hiding sometimes
                 setMediaArrowsVisibility(mCurrentView, View.INVISIBLE);
 >>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
         }
