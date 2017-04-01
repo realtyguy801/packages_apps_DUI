@@ -94,9 +94,6 @@ public class SmartBarEditor extends BaseEditor implements View.OnTouchListener {
     static final int POPUP_TYPE_TAP = 2;
     static final int POPUP_TYPE_ICON = 3;
 
-    public static final String BACK = ActionConstants.Smartbar.BUTTON1_TAG;
-    public static final String HOME = ActionConstants.Smartbar.BUTTON2_TAG;
-
     public static final int PHONE_MAX_BUTTONS = 7;
     public static final int TABLET_MAX_BUTTONS = 10;
 
@@ -331,13 +328,12 @@ public class SmartBarEditor extends BaseEditor implements View.OnTouchListener {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.setClassName(INTENT_ACTION_EDIT_CLASS, INTENT_ACTION_EDIT_COMPONENT);
-        if (mTapHasFocusTag == ActionConfig.PRIMARY) { // exclude single tap back, home, recent
+       /* if (mTapHasFocusTag == ActionConfig.PRIMARY) { // exclude single tap back, home, recent
             String[] exclude = {
-                    ActionHandler.SYSTEMUI_TASK_BACK,
-                    ActionHandler.SYSTEMUI_TASK_HOME
+                  //dont exclude shit
             };
             intent.putExtra("excluded_actions", exclude);
-        }
+        }*/
         mContext.startActivityAsUser(intent, UserHandle.CURRENT);
     }
 
@@ -581,10 +577,10 @@ public class SmartBarEditor extends BaseEditor implements View.OnTouchListener {
             for (int i = 1; i < mTapMenuItems.size() + 1; i++) {
                 item = mTapMenuItems.get(i);
                 int id = item.getActionId();
-                if (id == MENU_MAP_ACTIONS_SINGLE_TAP &&
+                /*if (id == MENU_MAP_ACTIONS_SINGLE_TAP &&
                         (tag.equals(BACK) || tag.equals(HOME))) {
                     continue;
-                }
+                }*/
                 popup.addActionItem(item);
             }
         } else if (type == POPUP_TYPE_ICON) {
@@ -603,10 +599,10 @@ public class SmartBarEditor extends BaseEditor implements View.OnTouchListener {
                 if (id == MENU_MAP_ADD && hasMaxButtons) {
                     continue;
                 }
-                if (id == MENU_MAP_REMOVE &&
+                /*if (id == MENU_MAP_REMOVE &&
                         (tag.equals(BACK) || tag.equals(HOME))) {
                     continue;
-                }
+                }*/
                 popup.addActionItem(item);
             }
         }

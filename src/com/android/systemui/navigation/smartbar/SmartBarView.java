@@ -229,12 +229,14 @@ public class SmartBarView extends BaseNavigationBar {
             View.OnLongClickListener longPressBackListener) {
         super.setListeners(userAutoHideListener, longPressBackListener);
         setOnTouchListener(mUserAutoHideListener);
-        getBackButton().setScreenPinningMode(mScreenPinningEnabled);
-        getBackButton().setLongPressBackListener(mLongPressBackListener);
         ViewGroup hidden = (ViewGroup) getHiddenView().findViewWithTag(Res.Common.NAV_BUTTONS);
-        SmartButtonView back = (SmartButtonView) hidden.findViewWithTag(Res.Softkey.BUTTON_BACK);
-        back.setScreenPinningMode(mScreenPinningEnabled);
-        back.setLongPressBackListener(mLongPressBackListener);
+        if(getBackButton() != null) {
+           getBackButton().setScreenPinningMode(mScreenPinningEnabled);
+           getBackButton().setLongPressBackListener(mLongPressBackListener);
+           SmartButtonView back = (SmartButtonView) hidden.findViewWithTag(Res.Softkey.BUTTON_BACK);
+           back.setScreenPinningMode(mScreenPinningEnabled);
+           back.setLongPressBackListener(mLongPressBackListener);
+        }
     }
 
     @Override
@@ -369,7 +371,9 @@ public class SmartBarView extends BaseNavigationBar {
         final boolean backAlt = (hints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) != 0;
 
         mNavigationIconHints = hints;
+        if(getBackButton() != null) {
         getBackButtonIcon().setImeVisible(backAlt);
+        }
 
         final boolean showImeButton = ((hints & StatusBarManager.NAVIGATION_HINT_IME_SHOWN) != 0);
         switch(mImeHintMode) {
@@ -412,17 +416,20 @@ public class SmartBarView extends BaseNavigationBar {
         final boolean disableBack = ((disabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0)
                 && ((mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) == 0);
 
+          
+        if(getBackButton() != null && getHomeButton() != null) {
         OpaLayout opaBack = (OpaLayout)getBackButton().getParent();
-        opaBack.setVisibility(disableBack ? View.INVISIBLE : View.VISIBLE);
+        //opaBack.setVisibility(disableBack ? View.INVISIBLE : View.VISIBLE);
         OpaLayout opaHome = (OpaLayout)getHomeButton().getParent();
-        opaHome.setVisibility(disableHome ? View.INVISIBLE : View.VISIBLE);
+        //opaHome.setVisibility(disableHome ? View.INVISIBLE : View.VISIBLE);
+        }
 
         // if any stock buttons are disabled, it's likely proper
         // to disable custom buttons as well
         for (String buttonTag : mCurrentSequence) {
             SmartButtonView v = findCurrentButton(buttonTag);
             OpaLayout opa = (OpaLayout) v.getParent();
-            if (v != null && v != getBackButton() && v != getHomeButton()) {
+            if (v != null) {
                 if (disableHome || disableBack || disableRecent) {
                     opa.setVisibility(View.INVISIBLE);
                 } else {
