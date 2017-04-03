@@ -125,7 +125,8 @@ public abstract class MediaMonitor implements MediaSessionManager.OnActiveSessio
                     if (state != null && isPlaybackActive(state.getState())) {
                         mIsPlaying = (state.getState() == PlaybackState.STATE_PLAYING
                                 || state.getState() == PlaybackState.STATE_BUFFERING)
-                                && !controller.getPackageName().toLowerCase().contains("youtube");
+                                && !controller.getPackageName().toLowerCase().contains("youtube")
+                                && !controller.getPackageName().toLowerCase().contains("chrome");
                         checkIfPlaying();
                     }
                 }
@@ -141,7 +142,8 @@ public abstract class MediaMonitor implements MediaSessionManager.OnActiveSessio
             mIsPlaying = controller.getPlaybackState() != null
                     && (controller.getPlaybackState().getState() == PlaybackState.STATE_PLAYING
                     || controller.getPlaybackState().getState() == PlaybackState.STATE_BUFFERING)
-                    && !controller.getPackageName().toLowerCase().contains("youtube");
+                    && !controller.getPackageName().toLowerCase().contains("youtube")
+                    && !controller.getPackageName().toLowerCase().contains("chrome");
         }
 
         public boolean isPlaying() {
