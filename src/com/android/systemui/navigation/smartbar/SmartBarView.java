@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.PorterDuff.Mode;
 import android.media.AudioManager;
@@ -121,6 +122,11 @@ public class SmartBarView extends BaseNavigationBar {
         sUris.add(Settings.System.getUriFor(Settings.System.DOTS_RESIZE_DURATION));
         sUris.add(Settings.System.getUriFor(Settings.System.HOME_RESIZE_DURATION));
         sUris.add(Settings.Secure.getUriFor(Settings.Secure.PULSE_CUSTOM_BUTTONS_OPACITY));
+        sUris.add(Settings.System.getUriFor(Settings.System.DOT_TOP_COLOR));
+        sUris.add(Settings.System.getUriFor(Settings.System.DOT_LEFT_COLOR));
+        sUris.add(Settings.System.getUriFor(Settings.System.DOT_RIGHT_COLOR));
+        sUris.add(Settings.System.getUriFor(Settings.System.DOT_BOTTOM_COLOR));
+        sUris.add(Settings.System.getUriFor(Settings.System.DOT_COLOR_SWITCH));
     }
 
     private SmartObservable mObservable = new SmartObservable() {
@@ -162,6 +168,16 @@ public class SmartBarView extends BaseNavigationBar {
                 setHomeResizeAnimationDuration();
             } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.PULSE_CUSTOM_BUTTONS_OPACITY))) {
                 updatePulseNavButtonsOpacity();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOT_TOP_COLOR))) {
+                updateOpaTopColor();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOT_LEFT_COLOR))) {
+                updateOpaLeftColor();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOT_RIGHT_COLOR))) {
+                updateOpaRightColor();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOT_BOTTOM_COLOR))) {
+                updateOpaBottomColor();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOT_COLOR_SWITCH))) {
+                updateOpaColorSwitch();
             }
         }
     };
@@ -234,6 +250,7 @@ public class SmartBarView extends BaseNavigationBar {
         }
         createBaseViews();
         SetOpaDurations();
+        SetOpaColors();
 
         mNavDoubleTapToSleep = new GestureDetector(context,
                 new GestureDetector.SimpleOnGestureListener() {
@@ -984,6 +1001,56 @@ public class SmartBarView extends BaseNavigationBar {
       OpaLayout.HOME_RESIZE_DURATION = dur;
     }
 
+    public void updateOpaTopColor() {
+      int col = Settings.System.getIntForUser(
+                ctx.getContentResolver(), Settings.System.DOT_TOP_COLOR, Color.RED,
+                UserHandle.USER_CURRENT);
+      OpaLayout.VIEW_TOP = col;
+
+    }
+
+    public void updateOpaLeftColor() {
+      int col = Settings.System.getIntForUser(
+                ctx.getContentResolver(), Settings.System.DOT_LEFT_COLOR, Color.BLUE,
+                UserHandle.USER_CURRENT);
+      OpaLayout.VIEW_LEFT = col;
+    }
+
+    public void updateOpaRightColor() {
+      int col = Settings.System.getIntForUser(
+                ctx.getContentResolver(), Settings.System.DOT_RIGHT_COLOR, Color.GREEN,
+                UserHandle.USER_CURRENT);
+      OpaLayout.VIEW_RIGHT = col;
+    }
+
+    public void updateOpaBottomColor() {
+      int col = Settings.System.getIntForUser(
+                ctx.getContentResolver(), Settings.System.DOT_BOTTOM_COLOR, Color.YELLOW,
+                UserHandle.USER_CURRENT);
+      OpaLayout.VIEW_BOTTOM = col;
+    }
+
+    public void updateOpaColorSwitch() {
+       int mColor = Settings.System.getIntForUser(ctx.getContentResolver(),
+                    Settings.System.DOT_COLOR_SWITCH, 0, UserHandle.USER_CURRENT);
+       OpaLayout.mColorDots = mColor;
+       int r1 = randomColor();
+       int r2 = randomColor();
+       int r3 = randomColor();
+       int r4 = randomColor();
+       OpaLayout.mRandomColor1 = r1;
+       OpaLayout.mRandomColor2 = r2;
+       OpaLayout.mRandomColor3 = r3;
+       OpaLayout.mRandomColor4 = r4;
+    }
+
+    public int randomColor() {
+           int red = (int) (0xff * Math.random());
+           int green = (int) (0xff * Math.random());
+           int blue = (int) (0xff * Math.random());
+           return Color.argb(255, red, green, blue);
+    }
+
     public void SetOpaDurations() {
             setYAnimationDuration();
             setXAnimationDuration();
@@ -993,5 +1060,13 @@ public class SmartBarView extends BaseNavigationBar {
             setDiamondAnimationDuration();
             setDotsAnimationDuration();
             setHomeResizeAnimationDuration();
+    }
+
+    public void SetOpaColors() {
+            updateOpaColorSwitch();
+            updateOpaTopColor();
+            updateOpaRightColor();
+            updateOpaLeftColor();
+            updateOpaBottomColor();
     }
 }
