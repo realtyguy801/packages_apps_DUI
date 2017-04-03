@@ -36,6 +36,7 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.PorterDuff.Mode;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.UserHandle;
@@ -189,6 +190,7 @@ public class SmartBarView extends BaseNavigationBar {
     private GestureDetector mNavDoubleTapToSleep;
     private SlideTouchEvent mSlideTouchEvent;
 
+    private AudioManager mAudioManager;
     private MediaMonitor mMediaMonitor;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -242,21 +244,23 @@ public class SmartBarView extends BaseNavigationBar {
             }
         });
 
-<<<<<<< HEAD
-=======
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mMusicStreamMuted = isMusicMuted(AudioManager.STREAM_MUSIC);
         IntentFilter filter = new IntentFilter();
         filter.addAction(AudioManager.STREAM_MUTE_CHANGED_ACTION);
+        filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         context.registerReceiver(mReceiver, filter);
 
->>>>>>> 11115e9... Smartbar media arrows: fix it hiding sometimes
         mMediaMonitor = new MediaMonitor(context) {
             @Override
             public void onPlayStateChanged(boolean playing) {
                 if (mImeHintMode == 3) {
                     setNavigationIconHints(mNavigationIconHints, true);
                 }
+            }
+            @Override
+            public void areMetadataChanged() {
+                setNavigationIconHints(mNavigationIconHints, true);
             }
         };
         mMediaMonitor.setListening(true);
@@ -349,15 +353,6 @@ public class SmartBarView extends BaseNavigationBar {
         Drawable d = null;
         if (config != null) {
             // a system navigation action icon is showing, get it locally
-<<<<<<< HEAD
-            String action = config.getActionConfig(ActionConfig.PRIMARY).getAction();
-            final boolean backAlt = (mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) != 0;
-            if (!backAlt && mMediaMonitor.isAnythingPlaying() &&
-                    ("task_ime_navigation_left".equals(action) || "task_ime_navigation_right".equals(action))) {
-                d = getContext().getResources().getDrawable(action == "task_ime_navigation_left" ? R.drawable.ic_skip_previous : R.drawable.ic_skip_next, null);
-            } else
-=======
->>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
             if (!config.hasCustomIcon()
                     && config.isSystemAction()) {
                     d = mResourceMap.getActionDrawable(config.getActionConfig(ActionConfig.PRIMARY).getAction());
@@ -467,38 +462,16 @@ public class SmartBarView extends BaseNavigationBar {
 
         final boolean showImeButton = ((hints & StatusBarManager.NAVIGATION_HINT_IME_SHOWN) != 0);
         switch(mImeHintMode) {
-<<<<<<< HEAD
-            case IME_HINT_MODE_HIDDEN: // always hidden
-<<<<<<< HEAD
-                setArrowsMode();
-=======
-                getImeSwitchButton().setVisibility(View.INVISIBLE);
-                setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
-                setMediaArrowsVisibility(mCurrentView, View.INVISIBLE);
->>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
-                break;
-            case IME_HINT_MODE_PICKER:
-                getHiddenContext().findViewWithTag(Res.Softkey.IME_SWITCHER).setVisibility(INVISIBLE);
-                getImeSwitchButton().setVisibility(showImeButton ? View.VISIBLE : View.INVISIBLE);
-                setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
-=======
             case IME_HINT_MODE_ARROWS: // arrows
                 getImeSwitchButton().setVisibility(View.INVISIBLE);
                 setImeArrowsVisibility(mCurrentView, backAlt ? View.VISIBLE : View.INVISIBLE);
->>>>>>> 11115e9... Smartbar media arrows: fix it hiding sometimes
                 setMediaArrowsVisibility(mCurrentView, View.INVISIBLE);
                 break;
             case IME_AND_MEDIA_HINT_MODE_ARROWS:
                 getImeSwitchButton().setVisibility(View.INVISIBLE);
-<<<<<<< HEAD
-                updateCurrentIcons();
-                setImeArrowsVisibility(mCurrentView, (backAlt || mMediaMonitor.isAnythingPlaying()) ? View.VISIBLE : View.INVISIBLE);
-                SmartButtonView.arrowsMediaAction = !backAlt;
-=======
                 setImeArrowsVisibility(mCurrentView, backAlt ? View.VISIBLE : View.INVISIBLE);
                 setMediaArrowsVisibility(mCurrentView, (!backAlt && (mMediaMonitor.isAnythingPlaying()
                         && mAudioManager.isMusicActive())) ? View.VISIBLE : View.INVISIBLE);
->>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
                 break;
             case IME_HINT_MODE_PICKER:
                 getHiddenContext().findViewWithTag(Res.Softkey.IME_SWITCHER).setVisibility(INVISIBLE);
@@ -508,17 +481,8 @@ public class SmartBarView extends BaseNavigationBar {
                 break;
             default: // hidden
                 getImeSwitchButton().setVisibility(View.INVISIBLE);
-<<<<<<< HEAD
-                updateCurrentIcons();
-                setImeArrowsVisibility(mCurrentView, backAlt ? View.VISIBLE : View.INVISIBLE);
-<<<<<<< HEAD
-                SmartButtonView.arrowsMediaAction = false;
-=======
-=======
                 setImeArrowsVisibility(mCurrentView, View.INVISIBLE);
->>>>>>> 11115e9... Smartbar media arrows: fix it hiding sometimes
                 setMediaArrowsVisibility(mCurrentView, View.INVISIBLE);
->>>>>>> a687b71... Smartbar media arrows: more code improvements [1/2]
         }
 
         // Update menu button in case the IME state has changed.
@@ -537,14 +501,6 @@ public class SmartBarView extends BaseNavigationBar {
         final boolean disableRecent = ((disabledFlags & View.STATUS_BAR_DISABLE_RECENT) != 0);
         final boolean disableBack = ((disabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0)
                 && ((mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) == 0);
-
-          
-        if(getBackButton() != null && getHomeButton() != null) {
-        OpaLayout opaBack = (OpaLayout)getBackButton().getParent();
-        //opaBack.setVisibility(disableBack ? View.INVISIBLE : View.VISIBLE);
-        OpaLayout opaHome = (OpaLayout)getHomeButton().getParent();
-        //opaHome.setVisibility(disableHome ? View.INVISIBLE : View.VISIBLE);
-        }
 
         // if any stock buttons are disabled, it's likely proper
         // to disable custom buttons as well
