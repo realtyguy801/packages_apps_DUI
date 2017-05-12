@@ -519,12 +519,21 @@ public class SmartBarView extends BaseNavigationBar {
         final boolean disableBack = ((disabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0)
                 && ((mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) == 0);
 
+        if (getBackButton() != null) {
+            OpaLayout opaBack = (OpaLayout)getBackButton().getParent();
+            opaBack.setVisibility(disableBack ? View.INVISIBLE : View.VISIBLE);
+        } 
+        if (getHomeButton() != null) { 
+           OpaLayout opaHome = (OpaLayout)getHomeButton().getParent();
+           opaHome.setVisibility(disableHome ? View.INVISIBLE : View.VISIBLE); 
+        }
+
         // if any stock buttons are disabled, it's likely proper
         // to disable custom buttons as well
         for (String buttonTag : mCurrentSequence) {
             SmartButtonView v = findCurrentButton(buttonTag);
             OpaLayout opa = (OpaLayout) v.getParent();
-            if (v != null) {
+            if (v != null && (v != getBackButton() && getBackButton() != null) && (v != getHomeButton() && getHomeButton() != null)) {
                 if (disableHome || disableBack || disableRecent) {
                     opa.setVisibility(View.INVISIBLE);
                 } else {
