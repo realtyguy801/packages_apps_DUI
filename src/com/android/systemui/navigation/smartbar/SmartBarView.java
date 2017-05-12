@@ -729,7 +729,7 @@ public class SmartBarView extends BaseNavigationBar {
 
     private void updateNavDoubletapSetting() {
         isNavDoubleTapEnabled = Settings.System.getIntForUser(getContext().getContentResolver(),
-                Settings.System.SMARTBAR_DOUBLETAP_SLEEP, 1, UserHandle.USER_CURRENT) == 1;
+                Settings.System.SMARTBAR_DOUBLETAP_SLEEP, 0, UserHandle.USER_CURRENT) == 1;
     }
 
     private void updateOneHandedModeSetting() {
