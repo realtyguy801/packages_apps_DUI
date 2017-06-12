@@ -451,6 +451,12 @@ public class SmartButtonView extends ImageView {
     };
 
     public void playSoundEffect(int soundConstant) {
-        mAudioManager.playSoundEffect(soundConstant, ActivityManager.getCurrentUser());
+        if(isSoundEnabled()) {
+           mAudioManager.playSoundEffect(soundConstant, ActivityManager.getCurrentUser());
+        }
     };
+
+    private boolean isSoundEnabled() {
+        return mHost.IsSoundEnabled();
+    }
 }

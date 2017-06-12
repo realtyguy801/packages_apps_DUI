@@ -127,6 +127,7 @@ public class SmartBarView extends BaseNavigationBar {
         sUris.add(Settings.System.getUriFor(Settings.System.DOT_RIGHT_COLOR));
         sUris.add(Settings.System.getUriFor(Settings.System.DOT_BOTTOM_COLOR));
         sUris.add(Settings.System.getUriFor(Settings.System.DOT_COLOR_SWITCH));
+        sUris.add(Settings.System.getUriFor(Settings.System.NAV_BUTTON_SOUNDS));
     }
 
     private SmartObservable mObservable = new SmartObservable() {
@@ -737,6 +738,10 @@ public class SmartBarView extends BaseNavigationBar {
                 Settings.Secure.ONE_HANDED_MODE_UI, 0, UserHandle.USER_CURRENT) == 1;
     }
 
+    public boolean IsSoundEnabled() {
+        return Settings.System.getIntForUser(ctx.getContentResolver(),
+                    Settings.System.NAV_BUTTON_SOUNDS, 1, UserHandle.USER_CURRENT) == 1;
+    }
     void recreateButtonLayout(ArrayList<ButtonConfig> buttonConfigs, boolean landscape,
             boolean updateCurrentButtons) {
         int extraKeyWidth = getContext().getResources().getDimensionPixelSize(R.dimen.navigation_extra_key_width);
