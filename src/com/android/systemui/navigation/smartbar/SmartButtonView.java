@@ -50,13 +50,13 @@ public class SmartButtonView extends ImageView {
     private static final String TAG = "StatusBar.KeyButtonView";
     private static final boolean DEBUG = false;
 
-    // TODO: make this dynamic again
-    private static final int DT_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
-    private static final int LP_TIMEOUT = ViewConfiguration.getLongPressTimeout();
-
     // AOSP values feel rather slow, shave off some slack
-    private static int sLongPressTimeout = LP_TIMEOUT - 100;
+    // changing double tap timeout also affects single tap
+    // so we can't play so much with it
+    private static final int DT_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
     private static int sDoubleTapTimeout = DT_TIMEOUT - 100;
+
+    private static int sLongPressTimeout;
 
     // Rebound spring config
     private static double TENSION = 130;
@@ -458,5 +458,9 @@ public class SmartButtonView extends ImageView {
 
     private boolean isSoundEnabled() {
         return mHost.IsSoundEnabled();
+    }
+
+    protected static void setButtonLongpressDelay(int delay) {
+        sLongPressTimeout = delay;
     }
 }

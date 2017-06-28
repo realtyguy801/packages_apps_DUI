@@ -46,6 +46,7 @@ import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
@@ -128,6 +129,7 @@ public class SmartBarView extends BaseNavigationBar {
         sUris.add(Settings.System.getUriFor(Settings.System.DOT_BOTTOM_COLOR));
         sUris.add(Settings.System.getUriFor(Settings.System.DOT_COLOR_SWITCH));
         sUris.add(Settings.System.getUriFor(Settings.System.NAV_BUTTON_SOUNDS));
+        sUris.add(Settings.Secure.getUriFor(Settings.Secure.SMARTBAR_LONGPRESS_DELAY));
     }
 
     private SmartObservable mObservable = new SmartObservable() {
@@ -179,6 +181,8 @@ public class SmartBarView extends BaseNavigationBar {
                 updateOpaBottomColor();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOT_COLOR_SWITCH))) {
                 updateOpaColorSwitch();
+            } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.SMARTBAR_LONGPRESS_DELAY))) {
+                updateButtonLongpressDelay();
             }
         }
     };
@@ -311,6 +315,7 @@ public class SmartBarView extends BaseNavigationBar {
         updateContextLayoutSettings();
         updateNavDoubletapSetting();
         updateOneHandedModeSetting();
+        updateButtonLongpressDelay();
     }
 
     @Override
@@ -1094,5 +1099,22 @@ public class SmartBarView extends BaseNavigationBar {
             updateOpaRightColor();
             updateOpaLeftColor();
             updateOpaBottomColor();
+   }
+
+    private void updateButtonLongpressDelay() {
+        int systemLpDelay = ViewConfiguration.getLongPressTimeout();
+        int userDelay = Settings.Secure.getIntForUser(getContext().getContentResolver(),
+                Settings.Secure.SMARTBAR_LONGPRESS_DELAY, 0, UserHandle.USER_CURRENT);
+        switch (userDelay) {
+            default:
+                SmartButtonView.setButtonLongpressDelay(systemLpDelay - 100);
+                break;
+            case 1:
+                SmartButtonView.setButtonLongpressDelay(systemLpDelay);
+                break;
+            case 2:
+                SmartButtonView.setButtonLongpressDelay(systemLpDelay + 200);
+                break;
+        }
     }
 }
