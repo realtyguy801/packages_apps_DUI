@@ -37,6 +37,7 @@ import com.android.systemui.navigation.Navigator;
 import com.android.systemui.navigation.pulse.PulseController;
 import com.android.systemui.navigation.smartbar.SmartBarView;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
+import com.android.systemui.statusbar.policy.BurnInProtectionController;
 import com.android.systemui.R;
 
 import android.app.admin.DevicePolicyManager;
@@ -269,6 +270,11 @@ public class NavigationController implements PackageChangedListener {
         }
         return DUActionUtils.getIdentifier(mContext, "screen_pinning_unlock_none",
                 DUActionUtils.STRING, "com.android.settings");
+    }
+
+    public void setBarView(BurnInProtectionController protector, boolean visible) {
+         protector.setNavigationBarView(
+                 visible ? mNavigationBarView : null);
     }
 
     // for now, it makes sense to let PhoneStatusBar add/remove navbar view

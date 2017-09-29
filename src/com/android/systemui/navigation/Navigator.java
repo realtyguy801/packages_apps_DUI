@@ -45,6 +45,7 @@ public interface Navigator {
     public boolean isVertical();
     public abstract BarTransitions getBarTransitions();
     public void onHandlePackageChanged();
+    public void shiftNavigationBarItems(int top,int bottom);
     public void setForgroundColor(Drawable drawable);
     public void setLeftInLandscape(boolean isLeftInLandscape);
     public void setKeyguardShowing(boolean showing);
